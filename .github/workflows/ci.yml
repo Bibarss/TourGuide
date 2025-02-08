@@ -1,6 +1,5 @@
 name: CI/CD Pipeline for TourGuide
 
-# Déclencheurs : se lance sur push et pull request sur la branche main
 on:
   push:
     branches:
@@ -11,14 +10,14 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
-      # 1. Récupérer le code source
+      # 1. Cloner le dépôt
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2. Installer et configurer le JDK (ici Java 17, adapter si besoin)
+      # 2. Installer le JDK 17 (Temurin) et mettre en cache les dépendances Maven
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
@@ -30,11 +29,11 @@ jobs:
       - name: Build and Test with Maven
         run: mvn clean install --batch-mode
 
-      # 4. Créer l’artefact (jar exécutable)
+      # 4. Packager l'artefact (le JAR exécutable)
       - name: Package Artifact
         run: mvn package --batch-mode
 
-      # 5. Archiver l’artefact pour le téléchargement
+      # 5. Télécharger (upload) l'artefact créé
       - name: Upload Artifact
         uses: actions/upload-artifact@v4.6.0
         with:
