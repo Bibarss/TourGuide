@@ -1,32 +1,44 @@
 package com.openclassrooms.tourguide.dto;
 
+import gpsUtil.location.Location;
+import lombok.Getter;
 
-import lombok.Data;
-
-@Data
+@Getter
 public class NearbyAttractionDTO {
     private String attractionName;
-    private double attractionLatitude;
-    private double attractionLongitude;
-    private double userLatitude;
-    private double userLongitude;
-    private double distance;
+    private Location attractionLocation;
+    private Location userLocation;
+    private double distanceMiles;
     private int rewardPoints;
 
-    // Constructeur
-    public NearbyAttractionDTO(String attractionName, double attractionLatitude, double attractionLongitude,
-                               double userLatitude, double userLongitude, double distance, int rewardPoints) {
+    public NearbyAttractionDTO(String attractionName, Location attractionLocation, Location userLocation, double distanceMiles, int rewardPoints) {
         this.attractionName = attractionName;
-        this.attractionLatitude = attractionLatitude;
-        this.attractionLongitude = attractionLongitude;
-        this.userLatitude = userLatitude;
-        this.userLongitude = userLongitude;
-        this.distance = distance;
+        this.attractionLocation = attractionLocation;
+        this.userLocation = userLocation;
+        this.distanceMiles = distanceMiles;
         this.rewardPoints = rewardPoints;
     }
 
-    // Getters et Setters (générés automatiquement)
-    // ...
+    public NearbyAttractionDTO() {
+    }
 
-    // Vous pouvez utiliser Lombok pour réduire le code des getters/setters si vous le souhaitez
+    public void setAttractionName(String attractionName) {
+        this.attractionName = attractionName;
+    }
+
+    public void setAttractionLocation(Location attractionLocation) {
+        this.attractionLocation = attractionLocation;
+    }
+
+    public void setUserLocation(Location userLocation) {
+        this.userLocation = userLocation;
+    }
+
+    public void setDistanceMiles(double distanceMiles) {
+        this.distanceMiles = distanceMiles;
+    }
+
+    public void setRewardPoints(int rewardPoints) {
+        this.rewardPoints = rewardPoints;
+    }
 }
