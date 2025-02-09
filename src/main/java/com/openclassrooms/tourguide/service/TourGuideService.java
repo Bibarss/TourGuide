@@ -41,8 +41,8 @@ public class TourGuideService {
 	public final Tracker tracker;
 	boolean testMode = true;
 
-	// Pool de threads avec availableProcessors * 4
-	private final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 4);
+	// Utilisation d'un pool de threads fixe avec un nombre limité de threads (500 ici)
+	private final ExecutorService executor = Executors.newFixedThreadPool(1000);
 
 	public TourGuideService(GpsUtil gpsUtil, RewardsService rewardsService) {
 		this.gpsUtil = gpsUtil;
@@ -95,15 +95,20 @@ public class TourGuideService {
 	public CompletableFuture<VisitedLocation> trackUserLocation(User user) {
 		return CompletableFuture.supplyAsync(() -> {
 			VisitedLocation visitedLocation = gpsUtil.getUserLocation(user.getUserId());
+			return visitedLocation;
+		}, executor).thenApplyAsync(visitedLocation -> {
 			user.addToVisitedLocations(visitedLocation);
 			rewardsService.calculateRewardsAsync(user).join();
 			return visitedLocation;
 		}, executor);
 	}
 
+
+
+
 	public List<NearbyAttractionDTO> getNearByAttractions(VisitedLocation visitedLocation) {
 		Location userLocation = visitedLocation.location;
-		logger.info("userLocation -------------- : {} {}", userLocation.latitude, userLocation.longitude);
+
 		List<Attraction> nearestAttractions = gpsUtil.getAttractions().stream()
 				.sorted(Comparator.comparingDouble(attraction -> rewardsService.getDistance(visitedLocation.location, attraction)))
 				.limit(5)

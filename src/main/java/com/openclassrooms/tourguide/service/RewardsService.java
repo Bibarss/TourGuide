@@ -29,8 +29,8 @@ public class RewardsService {
 	private final GpsUtil gpsUtil;
 	private final RewardCentral rewardsCentral;
 
-	// Utilisation d'un pool de threads fixe avec un nombre limité de threads (200 ici)
-	private final ExecutorService executor = Executors.newFixedThreadPool(200);
+	// Utilisation d'un pool de threads fixe avec un nombre limité de threads (500 ici)
+	private final ExecutorService executor = Executors.newFixedThreadPool(380);
 
 	private Logger logger = LoggerFactory.getLogger(RewardsService.class);
 
